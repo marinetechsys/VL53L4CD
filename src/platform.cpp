@@ -164,6 +164,45 @@ uint8_t VL53L4CD::VL53L4CD_I2CRead(uint8_t DeviceAddr, uint16_t RegisterAddress,
   return i != size;
 }
 
+uint8_t VL53L4CD::VL53L4CD_I2CReadByteWithTimeout(uint8_t DeviceAddr, uint16_t RegisterAddress, uint8_t *p_values)
+{
+  uint32_t size = 1;
+  int status = 0;
+  uint8_t buffer[2];
+
+  dev_i2c->beginTransmission((uint8_t)((DeviceAddr >> 1) & 0x7F));
+
+  // Target register address for transfer
+  buffer[0] = (uint8_t)(RegisterAddress >> 8);
+  buffer[1] = (uint8_t)(RegisterAddress & 0xFF);
+  dev_i2c->write(buffer, 2);
+
+  status = dev_i2c->endTransmission(false);
+
+  // Fix for some STM32 boards
+  // Reinitialize the i2c bus with the default parameters
+#ifdef ARDUINO_ARCH_STM32
+  if (status) {
+    dev_i2c->end();
+    dev_i2c->begin();
+  }
+#endif
+  // End of fix
+
+  if(status != 0){
+    return status; // I2c error code, NACK, timeout etc.
+  }
+
+  uint32_t i = 0;
+  dev_i2c->requestFrom(((uint8_t)((DeviceAddr >> 1) & 0x7F)), size);
+  while (dev_i2c->available()) {
+    p_values[i] = dev_i2c->read();
+    i++;
+  }
+
+  return i != size;
+}
+
 uint8_t VL53L4CD::VL53L4CD_I2CWrite(uint8_t DeviceAddr, uint16_t RegisterAddress, uint8_t *p_values, uint32_t size)
 {
   uint32_t i = 0;
