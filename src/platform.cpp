@@ -72,7 +72,7 @@ uint8_t VL53L4CD::VL53L4CD_RdWord(uint16_t dev, uint16_t RegisterAdress, uint16_
 uint8_t VL53L4CD::VL53L4CD_RdByte(uint16_t dev, uint16_t RegisterAdress, uint8_t *value)
 {
   uint8_t status = 0;
-  status = VL53L4CD_I2CReadByteWithTimeout(dev, RegisterAdress, value, 1);
+  status = VL53L4CD_I2CReadByteWithTimeout(dev, RegisterAdress, value);
   return status;
 }
 
