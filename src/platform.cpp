@@ -72,7 +72,7 @@ uint8_t VL53L4CD::VL53L4CD_RdWord(uint16_t dev, uint16_t RegisterAdress, uint16_
 uint8_t VL53L4CD::VL53L4CD_RdByte(uint16_t dev, uint16_t RegisterAdress, uint8_t *value)
 {
   uint8_t status = 0;
-  status = VL53L4CD_I2CRead(dev, RegisterAdress, value, 1);
+  status = VL53L4CD_I2CReadByteWithTimeout(dev, RegisterAdress, value, 1);
   return status;
 }
 
@@ -195,7 +195,7 @@ uint8_t VL53L4CD::VL53L4CD_I2CReadByteWithTimeout(uint8_t DeviceAddr, uint16_t R
 
   uint32_t i = 0;
   dev_i2c->requestFrom(((uint8_t)((DeviceAddr >> 1) & 0x7F)), size);
-  while (dev_i2c->available()) {
+  while (dev_i2c->available() && i < 256) {
     p_values[i] = dev_i2c->read();
     i++;
   }
