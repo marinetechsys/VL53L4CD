@@ -505,8 +505,8 @@ class VL53L4CD {
     * @brief Read multiple bytes through I2C.
     */
 
-    uint8_t VL53L4CD_I2CRead(uint8_t DeviceAddr, uint16_t RegisterAddress, uint8_t *p_values, uint32_t size);
-    uint8_t VL53L4CD_I2CReadByteWithTimeout(uint8_t DeviceAddr, uint16_t RegisterAddress, uint8_t *p_values);
+    //uint8_t VL53L4CD_I2CRead(uint8_t DeviceAddr, uint16_t RegisterAddress, uint8_t *p_values, uint32_t size);
+    uint8_t VL53L4CD_I2CReadBytesWithLimit(uint8_t DeviceAddr, uint16_t RegisterAddress, uint8_t *p_values);
 
     /**
     * @brief Write multiple bytes through I2C.
