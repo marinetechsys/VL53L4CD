@@ -164,7 +164,7 @@ void VL53L4CD::WaitMs(uint32_t TimeMs)
 //   return i != size;
 // }
 
-uint8_t VL53L4CD::VL53L4CD_I2CReadByteWithLimit(uint8_t DeviceAddr, uint16_t RegisterAddress, uint8_t *p_values, uint32_t size)
+uint8_t VL53L4CD::VL53L4CD_I2CReadBytesWithLimit(uint8_t DeviceAddr, uint16_t RegisterAddress, uint8_t *p_values, uint32_t size)
 {
   int status = 0;
   uint8_t buffer[2];
